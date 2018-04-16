@@ -9,18 +9,26 @@ type Props = {
   textValue: string,
   style?: StyleSheetTypes,
   icon?: number,
+  onChangeText?: (text: string) => void,
 };
 
 class SearchBar extends Component<Props, State> {
   render() {
-    let {placeholder, style, icon} = this.props;
+    let {placeholder, style, icon, textValue, onChangeText} = this.props;
     return (
       <View style={[localStyle.flex, localStyle.textInput]}>
         <Image style={localStyle.icon} source={icon ? icon : searchIcon} />
         <TextInput
           placeholder={placeholder}
-          style={[localStyle.flex, localStyle.textInputPlaceholder, style]}
+          value={textValue}
+          style={[
+            localStyle.flex,
+            localStyle.paddingTextInput,
+            textValue ? localStyle.colorBlack : localStyle.colorGray,
+            style,
+          ]}
           underlineColorAndroid="transparent"
+          onChangeText={onChangeText}
         />
       </View>
     );
@@ -31,9 +39,14 @@ const localStyle = StyleSheet.create({
   flex: {
     flex: 1,
   },
-  textInputPlaceholder: {
+  paddingTextInput: {
     paddingLeft: 5,
+  },
+  colorGray: {
     color: '#DEDEDE',
+  },
+  colorBlack: {
+    color: '#393939',
   },
   textInput: {
     borderWidth: 2,

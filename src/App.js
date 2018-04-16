@@ -21,6 +21,7 @@ import type {MenuItemType} from './types/types';
 type Props = {};
 type State = {
   menuItems: Array<MenuItemType>,
+  searchTextValue: string,
 };
 
 export default class App extends Component<Props, State> {
@@ -48,6 +49,11 @@ export default class App extends Component<Props, State> {
         },
       },
     ],
+    searchTextValue: '',
+  };
+
+  _onChangeText = (text: string) => {
+    this.setState({searchTextValue: text});
   };
 
   render() {
@@ -66,7 +72,11 @@ export default class App extends Component<Props, State> {
               borderColor: '#F8F8F8',
             }}
           >
-            <SearchBar placeholder="Find Menu Here" textValue="Coba Value" />
+            <SearchBar
+              placeholder="Find Menu Here"
+              textValue={this.state.searchTextValue}
+              onChangeText={this._onChangeText}
+            />
           </View>
           <View style={{flex: 8.5}}>
             <View
@@ -88,9 +98,10 @@ export default class App extends Component<Props, State> {
             </View>
             <View style={{flex: 8.5, backgroundColor: '#FFFFFF'}}>
               <ScrollView>
-                {this.state.menuItems.map(item => (
-                  <MenuItem menuItem={item} key={item.id} />
-                ))}
+                {this.state.menuItems.map(item => {
+                  if (item.name.includes(this.state.searchTextValue))
+                    return <MenuItem menuItem={item} key={item.id} />;
+                })}
               </ScrollView>
             </View>
           </View>

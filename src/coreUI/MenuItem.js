@@ -1,6 +1,6 @@
 // @flow
 import React, {Component} from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import defaultImage from '../assets/images/burger.jpg';
 
 import type {MenuItemType} from '../types/types';
@@ -9,13 +9,17 @@ type State = {};
 type Props = {
   menuItem: MenuItemType,
   style?: StyleSheetTypes,
+  onMenuItemClicked: (menuItem: MenuItemType) => void,
 };
 
 class MenuItem extends Component<Props, State> {
   render() {
-    let {menuItem, style} = this.props;
+    let {menuItem, style, onMenuItemClicked} = this.props;
     return (
-      <View style={localStyle.container}>
+      <TouchableOpacity
+        style={localStyle.container}
+        onPress={() => onMenuItemClicked(menuItem)}
+      >
         <View style={localStyle.flex_1}>
           <Image
             style={localStyle.menuIcon}
@@ -31,7 +35,7 @@ class MenuItem extends Component<Props, State> {
           </Text>
           <Text>{`$${menuItem.price}`}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }
